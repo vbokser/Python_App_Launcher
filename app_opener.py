@@ -6,7 +6,7 @@ from subprocess import Popen, PIPE
 import SaveData as SD
 
 
-class App:
+class App_Launcher:
     def __init__(self):
         self.width = 700
         self.height = 500
@@ -137,6 +137,6 @@ class App:
 
 
 if __name__ == "__main__":
-    app = App()
+    app = App_Launcher()
     print(app)
     app.root.mainloop()
