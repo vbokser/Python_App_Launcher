@@ -1,2 +1,0 @@
-/Applications/Books.app
-/Applications/Calculator.app
