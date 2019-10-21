@@ -1,0 +1,2 @@
+/Applications/Books.app
+/Applications/Day One.app
