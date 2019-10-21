@@ -1,3 +1,4 @@
-__pycache__
+__pycache__/
+.gitignore
+.git/
 saved_data.txt
-.git
