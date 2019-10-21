@@ -1,5 +1,5 @@
 __pycache__/
 .gitignore
 .git/
-.DS_store/
+.DS_store
 saved_data.txt
