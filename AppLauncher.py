@@ -8,8 +8,9 @@ import SaveData as SD
 
 class AppLauncher:
     def __init__(self):
-        self.width = 700
+        self.width = 600
         self.height = 500
+        self.heightEntireFrame = 550
 
         self.data = SD.SaveData()
         self.apps_to_open = self.data.readData()
@@ -19,7 +20,7 @@ class AppLauncher:
         self.root.title("App Opener")
         self.root.resizable(width=False, height=False)
         self.canvas = tk.Canvas(
-            self.root, width=self.width, height=self.height, bg="#263d42")
+            self.root, width=self.width, height=self.heightEntireFrame, bg="#263d42")
         self.canvas.pack()
 
         self.frame = tk.Frame(self.root, bg="white")
@@ -29,7 +30,8 @@ class AppLauncher:
                          height=(self.height - (2*self.offset)))
 
         self.listbox = tk.Listbox(self.frame)
-        self.listbox.place(x=10, y=10, width=self.width-(4*self.offset))
+        self.listbox.place(x=10, y=10, width=self.width -
+                           (4*self.offset), height=(self.height-(4*self.offset)))
 
         self.addButtons()
 
@@ -43,12 +45,14 @@ class AppLauncher:
     def openFileDialog(self):
         print("opening file dialog")
         filename = filedialog.askopenfilename(
-            initialdir="~/Desktop/", title="Select File", filetypes=(("All Files", ".*"), ("Executables", "*.exe")))
-        print(filename)
-        self.apps_to_open.append([filename, "NOT_ADDED_YET"])
-        # self.addTextToCanvas()
-        self.addListBoxToCanvas()
-        self.data.saveData(self.apps_to_open)
+            initialdir="~/Desktop/", title="Select File", filetypes=(("All Files", "*.*"), ("Executables", "*.exe")))
+        # print(filename)
+
+        if len(filename) > 1:
+            self.apps_to_open.append([filename, "NOT_ADDED_YET"])
+            # self.addTextToCanvas()
+            self.addListBoxToCanvas()
+            self.data.saveData(self.apps_to_open)
 
     def deleteSelectedListButtonPressed(self):
         if len(self.apps_to_open) == 0:
@@ -62,7 +66,7 @@ class AppLauncher:
 
         # update data model
         for i, app in enumerate(self.apps_to_open):
-            #print(f"{i} and {app[0]}")
+            # print(f"{i} and {app[0]}")
             if app[0] == selected_item:
                 print(f"we found selected item = {i}")
                 del self.apps_to_open[i]
@@ -94,17 +98,28 @@ class AppLauncher:
         self.openFile = tk.Button(
             self.root, text="Open File", padx=5, pady=5, fg="#27ae60", bg="#2980b9", command=self.openFileDialog)
         # activebackground="red", background="blue"
-        self.openFile.pack()
         self.runAppsButton = tk.Button(
             self.root, text="Run Apps", padx=5, pady=5, bd='5', fg="#27ae60", bg="#2980b9", command=self.runAppsNow)
-        self.runAppsButton.pack()
+        # self.runAppsButton.pack()
         self.deleteSelectedListItemButton = tk.Button(
             self.root, text="Delete Selected Item", padx=5, pady=5, bd='5', fg="#27ae60", bg="#2980b9", command=self.deleteSelectedListButtonPressed)
+
+        button_offset = 10
+        self.openFile.place(x=button_offset, y=(self.height+button_offset))
+        self.canvas.update()
+        openFileWidth = self.openFile.winfo_width()
+        runAppsButton_x = button_offset + openFileWidth + button_offset
+        self.runAppsButton.place(
+            x=runAppsButton_x, y=(self.height+button_offset))
+        self.canvas.update()
+
         if len(self.apps_to_open) >= 1:
-            self.deleteSelectedListItemButton.pack()
+            # self.deleteSelectedListItemButton.pack()
+            self.deleteSelectedListItemButton.place(
+                x=(self.width-170), y=(self.height+button_offset), width=160)
 
     def addListBoxToCanvas(self):
-        #listbox1 = tk.Listbox(self.root)
+        # listbox1 = tk.Listbox(self.root)
         self.listbox.delete(0, tk.END)
         for i, app in enumerate(self.apps_to_open):
             app_loc = app[0].strip("\n")
