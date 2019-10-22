@@ -1,4 +1,5 @@
 Program: App Launcher
+Developer: Vitaly Bokser
 
 Notes: uses tkinter library
 

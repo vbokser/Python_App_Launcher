@@ -1,3 +1,7 @@
+# App Launcher using tkinter
+# Developer: Vitaly Bokser
+# License: MIT License
+
 import tkinter as tk
 from tkinter import filedialog, Text
 import os
